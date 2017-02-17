@@ -38,6 +38,7 @@ export class JDashApi {
         router.get('/dashboard/:id', this.getDashboard.bind(this));
         router.post('/dashboard/create', this.createDashboard.bind(this));
         router.post('/dashboard/get/byuser', this.getDashboardsOfUser.bind(this));
+        return this;
     }
 
     constructor(public options: ApiOptions) {
