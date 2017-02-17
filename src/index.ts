@@ -1,4 +1,4 @@
-import { DashboardCreateModel, DashboardModel, IJDashProvider } from 'jdash-core/lib';
+import { DashboardCreateModel, DashboardModel, IJDashProvider } from 'jdash-core';
 import * as express from 'express';
 
 
