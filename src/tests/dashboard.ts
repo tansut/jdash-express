@@ -9,7 +9,8 @@ export default function () {
             var newDashboard: jcore.DashboardCreateModel = {
                 title: 'Foo title',
                 description: 'eewrew',
-                id: ""
+                id: "",
+                user: "xxx"
             }
             return Helper.request('/dashboard/create', {
                 method: 'POST',

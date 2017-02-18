@@ -16,7 +16,8 @@ export default (done: Function, port: number, baseUr: string) => {
     app.use(baseUr, router);
 
     jdashexpress({
-        provider: null
+        provider: null,
+        principal: null
     }).use(router);
 
 
