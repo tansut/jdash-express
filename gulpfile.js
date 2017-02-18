@@ -8,3 +8,7 @@ gulp.task('tsc', function () {
     var result = tsResult.js.pipe(gulp.dest('lib'));
     return result;
 });
+
+gulp.task('dev', ['tsc'], function () {
+    gulp.watch('./src/**/*.ts', ['tsc']);
+})
