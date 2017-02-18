@@ -7,6 +7,7 @@ export interface ApiOptions {
 export declare class JDashApi {
     options: ApiOptions;
     provider: IJDashProvider;
+    handleError(err: any): void;
     getDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
     getDashboardsOfUser(req: express.Request, res: express.Response, next: express.NextFunction): void;
     createDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;

@@ -11,6 +11,10 @@ export class JDashApi {
 
     provider: IJDashProvider;
 
+    handleError(err: any) {
+
+    }
+
     getDashboard(req: express.Request, res: express.Response, next: express.NextFunction) {
         var id = req.params.id;
         if (validator.isEmpty(<string>id))
@@ -31,7 +35,7 @@ export class JDashApi {
 
     createDashboard(req: express.Request, res: express.Response, next: express.NextFunction) {
         var model = <DashboardCreateModel>req.body;
-        this.provider.createDashboard(model).then(result => res.send(result));
+        this.provider.createDashboard(model).then(result => res.send(result)).catch(err => next(err));
     }
 
     use(router: express.IRouter<any>) {
