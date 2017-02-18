@@ -1,8 +1,13 @@
 import { DashboardCreateModel, DashboardModel, IJDashProvider } from 'jdash-core';
 import * as express from 'express';
 
+export interface IPrincipal {
+    user: string;
+    inRole?(string): boolean | Promise<boolean>;
+}
 
 export interface ApiOptions {
+    principal: (req: express.Request) => IPrincipal;
     provider: IJDashProvider;
 }
 
@@ -35,6 +40,7 @@ export class JDashApi {
 
     createDashboard(req: express.Request, res: express.Response, next: express.NextFunction) {
         var model = <DashboardCreateModel>req.body;
+        model.user = this.options && this.options.principal ? this.options.principal(req).user : undefined;
         this.provider.createDashboard(model).then(result => res.send(result)).catch(err => next(err));
     }
 
