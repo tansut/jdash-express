@@ -1,3 +1,4 @@
+/// <reference types="express" />
 import { IJDashProvider } from 'jdash-core';
 import * as express from 'express';
 export interface ApiOptions {
@@ -9,7 +10,7 @@ export declare class JDashApi {
     getDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
     getDashboardsOfUser(req: express.Request, res: express.Response, next: express.NextFunction): void;
     createDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
-    use(router: express.IRouter<any>): void;
+    use(router: express.IRouter<any>): this;
     constructor(options: ApiOptions);
 }
 declare var _default: (options: ApiOptions) => JDashApi;
