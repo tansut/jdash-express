@@ -6,7 +6,7 @@
   "types": "./lib/definitions/index.d.ts",
   "scripts": {
     "start": "npm run build:live-api",
-    "postinstall": "./node_modules/.bin/gulp tsc",
+    "postinstall": "gulp tsc",
     "test": "mocha -u tdd --timeout 999999 --colors lib/tests"
   },
   "repository": {
