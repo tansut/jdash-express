@@ -1,4 +1,6 @@
-import { DashboardCreateModel, DashboardModel, IJDashProvider } from 'jdash-core';
+import { IClientProvider, ISearchDashboards, CreateResult, Query, QueryResult } from 'jdash-core/lib/definitions';
+import { DashboardCreateModel, DashboardModel } from 'jdash-core';
+import { IDBProvider } from 'jdash-api';
 import * as express from 'express';
 
 export interface IPrincipal {
@@ -9,46 +11,48 @@ export interface IPrincipal {
 
 export interface ApiOptions {
     principal: (req: express.Request) => IPrincipal;
-    provider: IJDashProvider;
+    provider: IDBProvider
 }
 
 
 export class JDashApi {
 
-    provider: IJDashProvider;
+    provider: IDBProvider;
 
     handleError(err: any) {
 
     }
 
-    getDashboard(req: express.Request, res: express.Response, next: express.NextFunction) {
-        var id = req.params.id;
-        if (validator.isEmpty(<string>id))
-            res.send(401, 'id missing');
-        else {
-
-        }
-        this.provider.getDashboard(req.params.id).then(model => res.send(model));
+    getMyDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
+        var principal = this.options.principal(req);
+        this.provider.searchDashboards({
+            appid: principal.appid,
+            user: principal.user
+        }).then(model => res.send(model));
     }
 
-
-
-    getDashboardsOfUser(req: express.Request, res: express.Response, next: express.NextFunction) {
-        var user = req.body.user;
-        var query = req.body.query;
-        this.provider.getDashboardsOfUser(user, query).then(result => res.send(result));
+    searchDashboardsRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
+        var principal = this.options.principal(req);
+        var search = <ISearchDashboards>req.body.search;
+        var query = <Query>req.body.query;
+        this.provider.searchDashboards({
+            appid: principal.appid,
+            shareWith: search.shareWith,
+            user: search.user
+        }, query).then(model => res.send(model));
     }
 
-    createDashboard(req: express.Request, res: express.Response, next: express.NextFunction) {
+    createDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
         var model = <DashboardCreateModel>req.body;
-        model.user = this.options && this.options.principal ? this.options.principal(req).user : undefined;
-        this.provider.createDashboard(model).then(result => res.send(result)).catch(err => next(err));
+        var principal = this.options.principal(req);
+        model.user = principal.user;
+        this.provider.createDashboard(principal.appid, model).then(result => res.send(result)).catch(err => next(err));
     }
 
     use(router: express.IRouter<any>) {
-        router.get('/dashboard/:id', this.getDashboard.bind(this));
-        router.post('/dashboard/create', this.createDashboard.bind(this));
-        router.post('/dashboard/get/byuser', this.getDashboardsOfUser.bind(this));
+        router.get('/dashboard/my', this.getMyDashboardRoute.bind(this));
+        router.post('/dashboard/create', this.createDashboardRoute.bind(this));
+        router.post('/dashboard/search', this.searchDashboardsRoute.bind(this));
         return this;
     }
 

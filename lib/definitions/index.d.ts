@@ -1,6 +1,6 @@
 /// <reference types="es6-shim" />
 /// <reference types="express" />
-import { IJDashProvider } from 'jdash-core';
+import { IDBProvider } from 'jdash-api';
 import * as express from 'express';
 export interface IPrincipal {
     user: string;
@@ -9,15 +9,15 @@ export interface IPrincipal {
 }
 export interface ApiOptions {
     principal: (req: express.Request) => IPrincipal;
-    provider: IJDashProvider;
+    provider: IDBProvider;
 }
 export declare class JDashApi {
     options: ApiOptions;
-    provider: IJDashProvider;
+    provider: IDBProvider;
     handleError(err: any): void;
-    getDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
-    getDashboardsOfUser(req: express.Request, res: express.Response, next: express.NextFunction): void;
-    createDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    getMyDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    searchDashboardsRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    createDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     use(router: express.IRouter<any>): this;
     constructor(options: ApiOptions);
 }
