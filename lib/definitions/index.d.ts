@@ -4,6 +4,7 @@ import { IJDashProvider } from 'jdash-core';
 import * as express from 'express';
 export interface IPrincipal {
     user: string;
+    appid: string;
     inRole?(string: any): boolean | Promise<boolean>;
 }
 export interface ApiOptions {

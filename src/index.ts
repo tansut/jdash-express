@@ -3,6 +3,7 @@ import * as express from 'express';
 
 export interface IPrincipal {
     user: string;
+    appid: string;
     inRole?(string): boolean | Promise<boolean>;
 }
 
