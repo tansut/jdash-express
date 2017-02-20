@@ -1,6 +1,6 @@
 /// <reference types="es6-promise" />
 /// <reference types="express" />
-import { IDBProvider } from 'jdash-api';
+import { IDBProvider } from 'jdash-api-core';
 import * as express from 'express';
 export interface IPrincipal {
     user: string;
