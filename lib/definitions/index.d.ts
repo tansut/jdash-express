@@ -1,4 +1,4 @@
-/// <reference types="es6-shim" />
+/// <reference types="es6-promise" />
 /// <reference types="express" />
 import { IDBProvider } from 'jdash-api';
 import * as express from 'express';

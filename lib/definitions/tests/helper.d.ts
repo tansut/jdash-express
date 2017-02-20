@@ -1,5 +1,5 @@
 /// <reference types="request" />
-/// <reference types="es6-shim" />
+/// <reference types="es6-promise" />
 import * as rq from 'request';
 export default class  {
     static baseUrl: string;

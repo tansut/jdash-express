@@ -10,7 +10,8 @@ export default function () {
                 title: 'Foo title',
                 description: 'eewrew',
                 id: "",
-                user: "xxx"
+                user: "xxx",
+                layout: null
             }
             return Helper.request('/dashboard/create', {
                 method: 'POST',
