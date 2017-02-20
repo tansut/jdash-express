@@ -39,6 +39,6 @@
     "jsonwebtoken": "^7.3.0",
     "validator": "^6.2.0",
     "jdash-core": "git+ssh://git@bitbucket.org:kalitte/jdash-core.git",
-    "jdash-api": "git+ssh://git@bitbucket.org:kalitte/jdash-api.git"
+    "jdash-api-core": "git+ssh://git@bitbucket.org:kalitte/jdash-api-core.git"
   }
 }
