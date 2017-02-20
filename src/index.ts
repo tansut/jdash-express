@@ -1,6 +1,6 @@
 import { IClientProvider, ISearchDashboards, CreateResult, Query, QueryResult } from 'jdash-core/lib/definitions';
 import { DashboardCreateModel, DashboardModel } from 'jdash-core';
-import { IDBProvider } from 'jdash-api';
+import { IDBProvider } from 'jdash-api-core';
 import * as express from 'express';
 
 export interface IPrincipal {
