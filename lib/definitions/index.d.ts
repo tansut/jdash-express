@@ -15,9 +15,16 @@ export declare class JDashApi {
     options: ApiOptions;
     provider: IDBProvider;
     handleError(err: any): void;
+    getDashletsOfDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    deleteDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    saveDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    createDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    saveDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     getMyDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    deleteDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     searchDashboardsRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     createDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    getDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     use(router: express.IRouter<any>): this;
     constructor(options: ApiOptions);
 }
