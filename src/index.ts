@@ -47,6 +47,8 @@ export class JDashApi {
 
     createDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
         var model = <DashletCreateModel>req.body;
+        var principal = this.options.principal(req);
+
         var newModel: DashletModel = {
             title: model.title,
             configuration: model.configuration,
@@ -55,7 +57,6 @@ export class JDashApi {
             dashboardId: model.dashboardId,
             moduleId: model.moduleId
         }
-        var principal = this.options.principal(req);
         this.provider.createDashlet(newModel).then(result => res.send(result)).catch(err => next(err));
     }
 
@@ -94,6 +95,8 @@ export class JDashApi {
 
     createDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
         var principal = this.options.principal(req);
+        var model = <DashboardCreateModel>req.body;
+
         var newModel: DashboardModel = {
             title: model.title,
             appid: principal.appid,
@@ -105,8 +108,7 @@ export class JDashApi {
             user: principal.user,
             id: null
         }
-        var model = <DashboardCreateModel>req.body;
-        model.user = principal.user;
+
         this.provider.createDashboard(newModel).then(result => res.send(result)).catch(err => next(err));
     }
 
