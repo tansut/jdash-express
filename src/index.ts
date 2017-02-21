@@ -40,7 +40,7 @@ export class JDashApi {
     deleteDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
         var id = req.params.id;
         var principal = this.options.principal(req);
-        this.provider.deleteDashlet(principal.appid, id).then(() => res.sendStatus(200)).catch(err => next(err))
+        this.provider.deleteDashlet(id).then(() => res.sendStatus(200)).catch(err => next(err))
     }
 
     saveDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
