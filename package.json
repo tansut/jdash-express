@@ -20,6 +20,7 @@
     "@types/express": "^4.0.35",
     "@types/jsonwebtoken": "^7.2.0",
     "@types/mocha": "^2.2.39",
+    "@types/moment": "^2.13.0",
     "@types/request": "0.0.40",
     "@types/request-promise-native": "^1.0.2",
     "@types/should": "^8.1.30",
@@ -36,9 +37,10 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "jsonwebtoken": "^7.3.0",
-    "validator": "^6.2.0",
+    "jdash-api-core": "git+ssh://git@bitbucket.org:kalitte/jdash-api-core.git",
     "jdash-core": "git+ssh://git@bitbucket.org:kalitte/jdash-core.git",
-    "jdash-api-core": "git+ssh://git@bitbucket.org:kalitte/jdash-api-core.git"
+    "jsonwebtoken": "^7.3.0",
+    "moment": "^2.17.1",
+    "validator": "^6.2.0"
   }
 }

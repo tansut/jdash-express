@@ -15,7 +15,6 @@ export declare class JDashApi {
     options: ApiOptions;
     provider: IDBProvider;
     handleError(err: any): void;
-    getDashletsOfDashboard(req: express.Request, res: express.Response, next: express.NextFunction): void;
     deleteDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     saveDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     createDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;

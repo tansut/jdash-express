@@ -5,8 +5,10 @@ import {
     IClientProvider,
     ISearchDashboards,
     Query,
-    QueryResult, DashboardCreateModel, DashboardModel, DashletUpdateModel
+    QueryResult, DashboardCreateModel, DashboardModel, DashletUpdateModel, DashletModel
 } from 'jdash-core';
+import * as moment from 'moment';
+
 
 import { IDBProvider } from 'jdash-api-core';
 import * as express from 'express';
@@ -29,13 +31,6 @@ export class JDashApi {
 
     }
 
-    getDashletsOfDashboard(req: express.Request, res: express.Response, next: express.NextFunction) {
-        var dashboardId = req.params.id;
-        var principal = this.options.principal(req);
-        this.provider.searchDashlets({
-            dashboardId: dashboardId
-        }).then(result => res.send(result)).catch(err => next(err))
-    }
 
     deleteDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
         var id = req.params.id;
@@ -52,8 +47,16 @@ export class JDashApi {
 
     createDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
         var model = <DashletCreateModel>req.body;
+        var newModel: DashletModel = {
+            title: model.title,
+            configuration: model.configuration,
+            description: model.description,
+            createdAt: moment().utc().toDate(),
+            dashboardId: model.dashboardId,
+            moduleId: model.moduleId
+        }
         var principal = this.options.principal(req);
-        this.provider.createDashlet(model).then(result => res.send(result)).catch(err => next(err));
+        this.provider.createDashlet(newModel).then(result => res.send(result)).catch(err => next(err));
     }
 
 
@@ -90,10 +93,21 @@ export class JDashApi {
     }
 
     createDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
-        var model = <DashboardCreateModel>req.body;
         var principal = this.options.principal(req);
+        var newModel: DashboardModel = {
+            title: model.title,
+            appid: principal.appid,
+            config: model.config,
+            createdAt: moment().utc().toDate(),
+            description: model.description,
+            layout: model.layout,
+            shareWith: model.shareWith,
+            user: principal.user,
+            id: null
+        }
+        var model = <DashboardCreateModel>req.body;
         model.user = principal.user;
-        this.provider.createDashboard(principal.appid, model).then(result => res.send(result)).catch(err => next(err));
+        this.provider.createDashboard(newModel).then(result => res.send(result)).catch(err => next(err));
     }
 
     getDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -109,8 +123,6 @@ export class JDashApi {
         router.post('/dashboard/search', this.searchDashboardsRoute.bind(this));
         router.post('/dashboard/delete/:id', this.deleteDashboardRoute.bind(this));
         router.post('/dashboard/save/:id', this.saveDashboardRoute.bind(this));
-
-        router.get('/dashlet/bydashboard/:id', this.getDashletsOfDashboard.bind(this));
         router.post('/dashlet/create', this.createDashletRoute.bind(this));
         router.post('/dashlet/delete/:id', this.deleteDashletRoute.bind(this));
         router.post('/dashlet/save/:id', this.saveDashletRoute.bind(this));
