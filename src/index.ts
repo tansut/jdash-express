@@ -66,21 +66,27 @@ export class JDashApi {
         var id = req.params.id;
         var model = <DashboardUpdateModel>req.body;
 
-        var dashletRemovalsPromise = this.provider.getDashboard(principal.appid, id).then((dashboardResult) => {
-            var oldDashletIds = dashboardResult.dashlets.map(d => d.id);
-            var newDashletIds = Object.keys(model.layout.dashlets);
-            var removedDashletIds = oldDashletIds.filter((d) => {
-                return newDashletIds.indexOf(d) === -1;
+        var dashletRemovalsPromise;
+        if (model && model.layout && model.layout.dashlets) {
+            dashletRemovalsPromise = this.provider.getDashboard(principal.appid, id).then((dashboardResult) => {
+                var oldDashletIds = dashboardResult.dashlets.map(d => d.id);
+                var newDashletIds = Object.keys(model.layout.dashlets);
+                var removedDashletIds = oldDashletIds.filter((d) => {
+                    return newDashletIds.indexOf(d) === -1;
+                });
+
+                return this.provider.deleteDashlet(newDashletIds);
             });
-
-            return this.provider.deleteDashlet(newDashletIds);
-        });
-
-        var updateDashboardPromise = this.provider.updateDashboard(principal.appid, id, model)
-            .then(result => res.sendStatus(200)).catch(err => next(err))
-
-
-        return Promise.all([dashletRemovalsPromise, updateDashboardPromise]);
+        }
+        if (dashletRemovalsPromise) {
+            dashletRemovalsPromise.then(() => {
+                var updateDashboardPromise = this.provider.updateDashboard(principal.appid, id, model)
+                    .then(result => res.sendStatus(200)).catch(err => next(err));
+            });
+        } else {
+            var updateDashboardPromise = this.provider.updateDashboard(principal.appid, id, model)
+                .then(result => res.sendStatus(200)).catch(err => next(err));
+        }
     }
 
     getMyDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
