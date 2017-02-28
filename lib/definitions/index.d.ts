@@ -18,7 +18,7 @@ export declare class JDashApi {
     deleteDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     saveDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     createDashletRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
-    saveDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    saveDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): Promise<[any, void]>;
     getMyDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     deleteDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     searchDashboardsRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
