@@ -65,7 +65,22 @@ export class JDashApi {
         var principal = this.options.principal(req);
         var id = req.params.id;
         var model = <DashboardUpdateModel>req.body;
-        this.provider.updateDashboard(principal.appid, id, model).then(result => res.sendStatus(200)).catch(err => next(err))
+
+        var dashletRemovalsPromise = this.provider.getDashboard(principal.appid, id).then((dashboardResult) => {
+            var oldDashletIds = dashboardResult.dashlets.map(d => d.id);
+            var newDashletIds = Object.keys(model.layout.dashlets);
+            var removedDashletIds = oldDashletIds.filter((d) => {
+                return newDashletIds.indexOf(d) === -1;
+            });
+
+            return this.provider.deleteDashlet(newDashletIds);
+        });
+
+        var updateDashboardPromise = this.provider.updateDashboard(principal.appid, id, model)
+            .then(result => res.sendStatus(200)).catch(err => next(err))
+
+
+        return Promise.all([dashletRemovalsPromise, updateDashboardPromise]);
     }
 
     getMyDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
