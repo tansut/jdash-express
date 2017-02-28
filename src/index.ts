@@ -124,7 +124,7 @@ export class JDashApi {
             id: null
         }
 
-        this.provider.createDashboard(principal.appid, newModel).then(result => res.send(result)).catch(err => next(err));
+        this.provider.createDashboard(newModel).then(result => res.send(result)).catch(err => next(err));
     }
 
     getDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction) {
