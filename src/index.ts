@@ -75,16 +75,16 @@ export class JDashApi {
                     return newDashletIds.indexOf(d) === -1;
                 });
 
-                return this.provider.deleteDashlet(newDashletIds);
+                return this.provider.deleteDashlet(removedDashletIds);
             });
         }
         if (dashletRemovalsPromise) {
             dashletRemovalsPromise.then(() => {
-                var updateDashboardPromise = this.provider.updateDashboard(principal.appid, id, model)
+                this.provider.updateDashboard(principal.appid, id, model)
                     .then(result => res.sendStatus(200)).catch(err => next(err));
             });
         } else {
-            var updateDashboardPromise = this.provider.updateDashboard(principal.appid, id, model)
+            this.provider.updateDashboard(principal.appid, id, model)
                 .then(result => res.sendStatus(200)).catch(err => next(err));
         }
     }
