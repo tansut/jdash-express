@@ -79,12 +79,12 @@ export class JDashApi {
             });
         }
         if (dashletRemovalsPromise) {
-            dashletRemovalsPromise.then(() => {
+            return dashletRemovalsPromise.then(() => {
                 this.provider.updateDashboard(principal.appid, id, model)
                     .then(result => res.sendStatus(200)).catch(err => next(err));
             });
         } else {
-            this.provider.updateDashboard(principal.appid, id, model)
+            return this.provider.updateDashboard(principal.appid, id, model)
                 .then(result => res.sendStatus(200)).catch(err => next(err));
         }
     }
