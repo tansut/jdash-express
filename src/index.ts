@@ -139,7 +139,20 @@ export class JDashApi {
         this.provider.getDashboard(principal.appid, id).then(result => res.send(result)).catch(err => next(err));
     }
 
+    static lclControl(req: express.Request, res: express.Response, next: express.NextFunction) {
+        if (!(req.host.indexOf(Buffer.from("bG9jYWxob3N0", "base64").toString()) > -1 || req.host.indexOf(Buffer.from("MTI3LjAuMC4x", "base64").toString()) > -1)) {
+            var err = Buffer.from("SkRhc2ggVHJpYWwgQ2FuIE9ubHkgQmUgVXNlZCBXaXRoaW4gJ2xvY2FsaG9zdCAtIDEyNy4wLjAuMSAnIGRvbWFpbiBhZHJlc3Nlcw==", 'base64');
+            res.status(500);
+            res.write(err.toString());
+            res.end();
+        } else {
+            next();
+        }
+    }
+
     use(router: express.IRouter<any>) {
+
+        router.use(JDashApi.lclControl);
         router.get('/dashboard/my', this.getMyDashboardRoute.bind(this));
         router.get('/dashboard/:id', this.getDashboardRoute.bind(this));
         router.post('/dashboard/create', this.createDashboardRoute.bind(this));

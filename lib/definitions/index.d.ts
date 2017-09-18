@@ -24,6 +24,7 @@ export declare class JDashApi {
     searchDashboardsRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     createDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
     getDashboardRoute(req: express.Request, res: express.Response, next: express.NextFunction): void;
+    static lclControl(req: express.Request, res: express.Response, next: express.NextFunction): void;
     use(router: express.IRouter<any>): this;
     constructor(options: ApiOptions);
 }
